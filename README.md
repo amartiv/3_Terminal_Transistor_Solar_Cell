@@ -1,5 +1,5 @@
 # 3_Terminal_Transistor_Solar_Cell
- Modeling of the 3 terminal Heterojunction Solar Cell
+ Modeling of the 3 Terminal Heterojunction Bipolar Transistor Solar Cell
 
 * This software aims to model analytically the “three terminal heterojunction bipolar transistor solar cell” under the low injection model. The theory of this cell can be found in:
 
@@ -14,3 +14,13 @@
 * The deliverable D4_7_Open_software.docx is a deliverable that has to be presented at the end of May for the European Project  GRECO that contains further details  as well as it collects our experiences in developing this software in an open and collaborative enviorment
 
 * The documentation about the sources for material parameters is included in the document “References_for_material_parameters.odt” under the “Material_parameters” folder. 
+
+* Credits:
+A. Martí (initial development)
+E. Antolín
+M. Zehender
+I. Ramiro
+
+Instituto de Energía Solar
+Universidad Politécnica de Madrid
+Spain
