@@ -15,6 +15,8 @@
 
 * The documentation about the sources for material parameters is included in the document “References_for_material_parameters.odt” under the “Material_parameters” folder. 
 
+* "Rs_and_Voc_drops_GaInP_PoC.py" is a code for calculating the series resistance. It has not been incorporated to the main file "3TSC-Model.ipynb"
+
 * Credits:
 A. Martí (initial development)
 E. Antolín
