@@ -17,11 +17,14 @@
 
 * "Rs_and_Voc_drops_GaInP_PoC.py" is a code for calculating the series resistance. It has not been incorporated to the main file "3TSC-Model.ipynb"
 
+* "githubCenturioni.txt" is a code, that can be incorporated to Matlab or similar, that allows to calculate the optical power density flux in coherent multilayer structures. It has not been incorporated to the main file "3TSC-Model.ipynb"
+
 * Credits:
 A. Martí (initial development)
 E. Antolín
 M. Zehender
 I. Ramiro
+S. Svatek
 
 Instituto de Energía Solar
 Universidad Politécnica de Madrid

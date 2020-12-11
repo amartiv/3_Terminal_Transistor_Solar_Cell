@@ -1,0 +1,78 @@
+%% Calculation of optical power density flux in coherent multilayer structures.
+% this code calculates the power density Pii of a material layer stack 
+% of materialA, materialB, materialC, 
+% where materialX is an array containing refractive indeces n and k, materialX_n and materialX_k, 
+% each of which are arrays containing n and k for each wavelength lambda,
+% where lambda is an array containing wavelengths to be calculated, lambda = [400 401 402 ...],
+% as a function of lambda, and the interface i counting from the top,
+% interface i=1 being interface between air and materialA, i=2 being interface 
+% between materialA and materialB and so forth. 
+%% this codes follows the method of 
+% (1) Centurioni, E. "Generalized Matrix Method for Calculation of Internal Light Energy Flux in Mixed Coherent and Incoherent Multilayers."
+% Appl. Opt. 2005, 44 (35), 7532. https://doi.org/10.1364/AO.44.007532.
+% Code has been implemented by S. Svatek, Instituto de Energia Solar - Universidad Politecnica de Madrid, Madrid, Spain, EU.
+% Code can be implemented in Matlab or similar.
+
+for c=1:length(lambda) % for each wavelength individually
+    %% structure
+    % refractive indices N=n+ik and thicknesses
+    layerdata=[1+0i 10000; %air
+        materialA_n(c)+1i*materialA_k(c) 25;
+        materialB_n(c)+1i*materialB_k(c) 550;
+        materialC_n(c)+1i*materialC_k(c) 800;
+        materialD_n(c)+1i*materialD_k(c) 3500;
+        materialE_n(c)+1i*materialE_k(c) 300;
+        materialF_n(c)+1i*materialF_k(c) 100;
+        1+0i 1000000; %air]; 
+    
+    d=layerdata(:,2); %thicknesses
+    N=layerdata(:,1); %materials
+    num=length(d);    % number of layer
+    %% coefficients
+    % fresnel coefficients r and t at interface ij
+    for i=1:num-1
+        j=i+1;
+        r(i,j)=(N(j)-N(i))/(N(j)+N(i)); 
+        t(i,j)=2*N(i)/(N(i)+N(j)); 
+    end
+    % wave propagation at the ij interface
+    for i=1:num-1
+        j=i+1;
+        I{i}=1/t(i,j)*[1,r(i,j);r(i,j),1]; % I defines wave propagation at the interface between j and j+1
+   end
+    % wave propagation through the i'th layer
+    for i=1:num
+       beta(i)=2*pi()*d(i)*N(i)/lambda(c);%phase shift
+        L{i}=[exp(-beta(i)*1i),0;0,exp(beta(i)*1i)]; % extinction matrix
+    end
+    % absorption coeff in layer i
+    for i=1:num
+        alpha(c,i)=4*pi()*imag(N(i))/lambda(c);  
+    end
+    %scattering matrix
+    S=I{1};
+    for i=2:num-1
+        S=S*L{i}*I{i}; 
+    end
+    R(c)=abs(S(2,1)/(S(1,1)))^2; %total reflectance
+    T(c)=abs(1/(S(1,1)))^2; %total transmittance
+    A(c)=1-T(c)-R(c); %total absorbance
+    
+    %% find contribution of individual layers
+    %reflection and transmission 
+    trans=1/S(1,1); % same as above T(c)
+    carcR=trans*S(2,1); % same as above R(c)
+    E0R=sqrt(2*376);
+    %cut scattering matrix at i'th interface 
+    for count=1:num %layer number
+        cutS=eye(2); %empty matrix
+        for i=count:num-1 %interface
+            cutS=cutS*L{i}*I{i}; %cut matrix
+        end
+        E(count)=trans*(cutS(1,1)+cutS(2,1))*E0R; %electric field at interface 'count'
+        H=N(count)*trans*(cutS(2,1)-cutS(1,1))*E0R/376; %magnetic field at interface 'count'
+        P(count)=-0.5*real(E(count)*conj(H)); %power density through interface 'count'
+    end
+    Pii(:,c)=P; %power densities through all interfaces
+end
+
