@@ -19,6 +19,8 @@
 
 * "githubCenturioni.txt" is a code, that can be incorporated to Matlab or similar, that allows to calculate the optical power density flux in coherent multilayer structures. It has not been incorporated to the main file "3TSC-Model.ipynb"
 
+* Absorptance_nanowire_HBTSC.py is a script that, with help of the program S4 (https://doi.org/10.1016/j.cpc.2012.04.026,https://github.com/phoebe-p/S4), calculates the absorptance in a nanowire HBTSC structure. It has not been incorporated to the main file "3TSC-Model.ipynb"
+
 * Credits:
 A. Martí (initial development)
 E. Antolín
